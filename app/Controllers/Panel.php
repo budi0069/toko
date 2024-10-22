@@ -337,6 +337,21 @@ class Panel extends BaseController
         ];
         return view('panel/kupon',$data);
     }
+    public function insert_kupon(){
+        $kuponmodel = new KuponModel();
+        $data = [
+            'code' => $this->request->getPost('code'),
+            'valid_until' => $this->request->getPost('valid_until'),
+            'discount_percent' => $this->request->getPost('discount_percent'),
+        ];
+        $kuponmodel->insert($data);
+        return redirect()->to('/panel/kupon');
+    }
+    public function delete_kupon($id_diskon){
+        $kuponmodel = new KuponModel();
+        $id_diskon = $kuponmodel->where('id_diskon', $id_diskon)->delete();
+        return redirect()->to('/panel/kupon');
+    }
     public function produkmasuktambah()
     {
         if ($this->request->getMethod() === 'post') {

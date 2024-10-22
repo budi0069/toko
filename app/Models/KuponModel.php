@@ -7,6 +7,7 @@ use CodeIgniter\Model;
 class KuponModel extends Model
 {
     protected $table = 'kupon';
+    protected $primaryKey = 'id_diskon';
     protected $allowedFields = ['code', 'discount_percent','valid_until'];
 
     public function getCoupon($code)
