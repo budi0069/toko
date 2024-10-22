@@ -21,6 +21,21 @@
                             </tr>
                         </thead>
                         <tbody>
+                            <?php
+                            $no = 1;
+                            foreach ($kupon as $k) :
+                            ?>
+                                <tr>
+                                    <th scope="row"><?= $no++ ?></th>
+                                    <td><?= $k['code'] ?></td>
+                                    <td><?= $k['discount_persent'] ?></td>
+                                    <td><?= $k['valid_until'] ?></td>
+                                    <td>
+                                        <a href="" class="btn btn-sm btn-warning">Edit</a>
+                                        <a href="" class="btn btn-sm btn-danger">Hapus</a>
+                                    </td>
+                                </tr>
+                            <?php endforeach ?>
                         </tbody>
                     </table>
                 </div>

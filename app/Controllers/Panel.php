@@ -2,8 +2,8 @@
 
 namespace App\Controllers;
 
-use App\Models\KuponModel;
 use PDO;
+use App\Models\KuponModel;
 use App\Models\ProdukModel;
 use App\Models\KategoriModel;
 use App\Controllers\BaseController;
@@ -329,9 +329,11 @@ class Panel extends BaseController
 
     // kupon
     public function kupon(){
-        $kupn = new KuponModel();
+        $kuponmodel = new KuponModel();
+        $kupon = $kuponmodel->findAll();
         $data =[
-            'title' => 'Daftar Kelola Kupon'
+            'title' => 'Daftar Kelola Kupon',
+            'kupon' => $kupon
         ];
         return view('panel/kupon',$data);
     }
