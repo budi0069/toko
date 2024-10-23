@@ -1,7 +1,4 @@
 <?= $this->render('home/header'); ?>
-
-
-
 <section class="mb-5">
     <div class="container">
         <div class="row">
@@ -48,7 +45,7 @@
                                     <p class="cpp_total"><?php echo rupiah($keranjang['subtotal']); ?></p>
                                 </td>
                                 <td>
-                                    <a href="<?php echo base_url('home/keranjanghapus/' . $keranjang['rowid']); ?>" class="genric-btn danger circle">Hapus</a>
+                                    <a href="<?php echo base_url('home/keranjanghapus/' . $keranjang['rowid']); ?>" class="btn btn-danger">Hapus</a>
                                 </td>
                             </tr>
                             <?php
@@ -65,13 +62,14 @@
                 <div class="summary-section">
                     <h4 class="text-white">Detail Pembayaran</h4>
                     <div class="summary-item">
-                        <p class="text-white">Total : <span><?php echo rupiah($total); ?></span></p>
+                        <p class="text-white">Total : <span id="totalpembayaran"><?php echo rupiah($total); ?></span></p>
+                        <p class="text-white d-none" id="pdiskon">Diskon : <span id="diskonpersen">%</p>
                     </div>
                     <div class="coupon-section">
                         <h5 class="text-white">Coupons</h5>
                         <div class="input-group mb-3">
-                            <input type="text" class="form-control" placeholder="Enter coupon code" aria-label="Coupon code" />
-                            <button class="btn btn-primary" type="button">Apply</button>
+                            <input type="text" class="form-control" placeholder="Enter coupon code" aria-label="Coupon code" id="couponinput" />
+                            <button class="btn btn-primary" onclick="kupon()" type="button">Apply</button>
                         </div>
                     </div>
                     <div class="cart-action">
@@ -126,5 +124,52 @@
         text-align: center;
     }
 </style>
+<script>
+    let datakupon = <?= json_encode($kupon) ?>;
+    // console.log(datakupon);
+    function kupon() {
+        let couponValue = document.getElementById('couponinput').value
+        if (couponValue == "") {
+            Swal.fire({
+                icon: 'error',
+                title: 'Oops...',
+                text: 'Kode Kupon Tidak Valid'
+            })
+        } else {
+            let kupon = datakupon.filter(kupon => kupon.code == couponValue)
+            // console.log(kupon)
+            if (kupon.length > 0) {
+                Swal.fire({
+                    icon: 'success',
+                    title: 'Selamat',
+                    text: 'Kupon Valid Njir'
+                })
+                let discount_percent = kupon[0].discount_percent
+                discount_percent = parseInt(discount_percent)
+                // console.log(discount_percent)
+                let totalpembayaran = document.getElementById('totalpembayaran').innerText
+                let pdiskon = document.getElementById('pdiskon')
+                pdiskon.classList.remove('d-none')
+                let diskonpersen = document.getElementById('diskonpersen')
+                diskonpersen.innerText = discount_percent+'%'
+                totalpembayaran = totalpembayaran.slice(0, -3)
+                totalpembayaran = totalpembayaran.replace(".", "")
+                totalpembayaran = totalpembayaran.replace("Rp ", "")
+                totalpembayaran = parseInt(totalpembayaran)
+                // console.log(totalpembayaran)
+                totalpembayaran = totalpembayaran - (totalpembayaran * (discount_percent / 100))
+                totalpembayaran = totalpembayaran.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".");
+                document.getElementById('totalpembayaran').innerText = 'Rp ' + totalpembayaran + ',00'
+                // console.log(totalpembayaran)
+            } else {
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Oops...',
+                    text: 'Kode Kupon Tidak Valid'
+                })
+            }
+        }
+    }
+</script>
 
 <?= $this->render('home/footer'); ?>

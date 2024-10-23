@@ -49,11 +49,10 @@
                                     ?>
                                         <tr>
                                             <th scope="row"><?= $no++ ?></th>
-                                            <td><?= $k['code'] ?></td>
-                                            <td><?= $k['discount_percent'] ?></td>
+                                            <td class="fw-bold"><?= $k['code'] ?></td>
+                                            <td><?= $k['discount_percent'] ?> %</td>
                                             <td><?= $k['valid_until'] ?></td>
                                             <td>
-                                                <a href="" class="btn btn-sm btn-warning">Edit</a>
                                                 <a href="/panel/delete_kupon/<?= $k['id_diskon'] ?>" class="btn btn-sm btn-danger">Hapus</a>
                                             </td>
                                         </tr>

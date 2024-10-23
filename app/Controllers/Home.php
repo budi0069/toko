@@ -5,6 +5,7 @@ namespace App\Controllers;
 use PDO;
 use App\Models\ProdukModel;
 use App\Models\KategoriModel;
+use App\Models\KuponModel;
 use App\Controllers\BaseController;
 use CodeIgniter\Database\ConnectionInterface;
 
@@ -138,9 +139,12 @@ class Home extends BaseController
     }
     public function keranjang()
     {
+        $kuponmodel = new KuponModel();
+        $kupon = $kuponmodel->findAll();
         $data = [
             'title' => 'Keranjang',
             'cart' => $this->cart,
+            'kupon' => $kupon
         ];
         return view('home/keranjang', $data);
     }
